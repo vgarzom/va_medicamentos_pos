@@ -19,7 +19,7 @@ Para ejecutar el código en una máquina local es requerido nodejs.
 Luego dentro de la carpeta del código ejecutar: ```npm install``` y despues: ```reload -b```
 
 ## Video Demo:
-[Ver en youtube](https://www.youtube.com/watch?v=-WCK17Ip97A)
+[Ver en youtube](http://www.youtube.com/watch?v=dh-JslFIx9c)
 
 ## Pantallazo de la visualización:
 ![alt text](https://raw.githubusercontent.com/vgarzom/va_medicamentos_pos/master/assets/images/screenshot.png?raw=true)
@@ -28,6 +28,6 @@ Luego dentro de la carpeta del código ejecutar: ```npm install``` y despues: ``
 [Víctor Garzón Marín](https://www.linkedin.com/in/v%C3%ADctor-garz%C3%B3n-mar%C3%ADn-25984b27/)
 
 ## Slides sobre la visualización: 
-[Aquí](https://docs.google.com/presentation/d/1Mu6heZ6lVPmUMcP42UC7o3SFodgVr2oSFXebz2o3vt4/edit?usp=sharing)
+[Aquí](https://docs.google.com/presentation/d/1Ig9wQRuN8_kVk3u1VIyZB0Igaf_rujZhlQpzP2_OB8Q/edit?usp=sharing)
 
 ### código publicado bajo licencia MIT
