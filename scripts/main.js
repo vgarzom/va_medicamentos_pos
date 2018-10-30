@@ -36,6 +36,7 @@ function distributeByForma() {
         }
     ).then(() => {
         total_count = result.length;
+        var total_formas = 0;
         var data = d3.nest()
             .key((d) => {
                 return d.formafarmaceutica.split(" ")[0];
@@ -71,8 +72,9 @@ function distributeByForma() {
                             children: dp
                         }
                     })
+                total_formas += di.length;
                 return {
-                    name: g.key,
+                    name: g.key + "(" + di.length + ")",
                     children: di
                 }
             })
@@ -81,7 +83,7 @@ function distributeByForma() {
         })
 
         //createTooltip(svg);
-        medicamentos = { name: "POS", children: data }
+        medicamentos = { name: "POS: " + total_formas + " ff", children: data }
         drawTreeChart(medicamentos);
     });
 }
@@ -91,39 +93,15 @@ function distributeByPrincipioactivo() {
     d3.csv(
         "assets/data/medicamentos.csv",
         (d, i) => {
-            d.name = d.cantidad + " " + d.unidadmedida;
+            d.name = d.cantidad + " " + d.unidadmedida + " " + d.unidadreferencia;
             result.push(d);
         }
     ).then(() => {
+        var total_principios_activos = 0;
         total_count = result.length;
         result.sort((x, y) => {
             return d3.ascending(x.principioactivo, y.principioactivo);
         })
-        /*var data = d3.nest()
-            .key((d) => {
-                return d.principioactivo;
-            })
-            .entries(result)
-            .map((g) => {
-                var dataForma = d3.nest()
-                    .key((d) => {
-                        return d.formafarmaceutica;
-                    })
-                    .entries(g.values)
-                    .map((gforma) => {
-                        return {
-                            name: gforma.key,
-                            children: gforma.values
-                        }
-                    })
-                return {
-                    name: g.key,
-                    children: dataForma
-                }
-            })
-        data.sort((x, y) => {
-            return d3.ascending(x.name, y.name);
-        })*/
 
         var data = d3.nest()
             .key((d) => {
@@ -153,15 +131,17 @@ function distributeByPrincipioactivo() {
                             name: gp.key,
                             children: dataForma
                         }
-                    })
+                    });
+                total_principios_activos += dataPrincipio.length;
                 return {
-                    name: g.key,
+                    name: g.key + "(" + dataPrincipio.length + ")",
                     children: dataPrincipio
                 }
             });
 
         //createTooltip(svg);
-        medicamentos = { name: "POS", children: data }
+        medicamentos = { name: "POS: \n" + total_principios_activos + " pa", children: data }
+        console.log(data);
         drawTreeChart(medicamentos);
     });
 }
@@ -176,7 +156,7 @@ function controlsChanged() {
             distributeByForma();
         }
     });
-    distributeByForma();
+    distributeByPrincipioactivo();
 }
 
 controlsChanged();

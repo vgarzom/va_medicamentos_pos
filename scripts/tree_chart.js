@@ -1,6 +1,6 @@
 
 var
-    dy = width / 5,
+    dy = width / 5.5,
     dx = 12;
 
 var tree = d3.tree().nodeSize([dx, dy]);
