@@ -1,12 +1,14 @@
+
 var
     dy = width / 5,
     dx = 12;
-
 
 var tree = d3.tree().nodeSize([dx, dy]);
 var diagonal = d3.linkHorizontal().x(d => d.y).y(d => d.x);
 
 function drawTreeChart(data) {
+
+
     const root = d3.hierarchy(data);
 
     root.x0 = dy / 2;
@@ -19,7 +21,7 @@ function drawTreeChart(data) {
 
     svg
         .attr("width", width)
-        .attr("height", total_count*18.1)
+        .attr("height", total_count * 18.1)
         .attr("viewBox", [-margin.left, -margin.top, width, dx])
         .style("font", "8px")
         .style("user-select", "none");

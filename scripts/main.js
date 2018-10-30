@@ -6,7 +6,9 @@ const
     width = vis_container.node().getBoundingClientRect().width;
 var
     chart_height = vis_container.node().getBoundingClientRect().height - vis_header.node().getBoundingClientRect().height,
-    svg = vis_container.append('svg').attr("width", width).attr("height", 4000);
+    svg = vis_container.append('svg').attr("width", width).attr("height", 4000),
+    divideby = 5,
+    dy = width / divideby;
 
 svg.style("font", "10px sans-serif")
     .style("width", "100%")
@@ -24,9 +26,7 @@ var medicamentos = {};
 var firstTime = true;
 
 
-updateData();
-
-function updateData() {
+function distributeByForma() {
     var result = [];
     d3.csv(
         "assets/data/medicamentos.csv",
@@ -86,10 +86,97 @@ function updateData() {
     });
 }
 
-function controlsChanged() {
-    minMagnitude = d3.select("#min-magnitude-input").node().value;
-    maxMagnitude = d3.select("#max-magnitude-input").node().value;
-    minDepth = d3.select("#min-depth-input").node().value;
-    maxDepth = d3.select("#max-depth-input").node().value;
-    updateData();
+function distributeByPrincipioactivo() {
+    var result = [];
+    d3.csv(
+        "assets/data/medicamentos.csv",
+        (d, i) => {
+            d.name = d.cantidad + " " + d.unidadmedida;
+            result.push(d);
+        }
+    ).then(() => {
+        total_count = result.length;
+        result.sort((x, y) => {
+            return d3.ascending(x.principioactivo, y.principioactivo);
+        })
+        /*var data = d3.nest()
+            .key((d) => {
+                return d.principioactivo;
+            })
+            .entries(result)
+            .map((g) => {
+                var dataForma = d3.nest()
+                    .key((d) => {
+                        return d.formafarmaceutica;
+                    })
+                    .entries(g.values)
+                    .map((gforma) => {
+                        return {
+                            name: gforma.key,
+                            children: gforma.values
+                        }
+                    })
+                return {
+                    name: g.key,
+                    children: dataForma
+                }
+            })
+        data.sort((x, y) => {
+            return d3.ascending(x.name, y.name);
+        })*/
+
+        var data = d3.nest()
+            .key((d) => {
+                return d.principioactivo.charAt(0);
+            })
+            .entries(result)
+            .map((g) => {
+
+                var dataPrincipio = d3.nest()
+                    .key((d) => {
+                        return d.principioactivo;
+                    })
+                    .entries(g.values)
+                    .map((gp) => {
+                        var dataForma = d3.nest()
+                            .key((d) => {
+                                return d.formafarmaceutica;
+                            })
+                            .entries(gp.values)
+                            .map((gforma) => {
+                                return {
+                                    name: gforma.key,
+                                    children: gforma.values
+                                }
+                            })
+                        return {
+                            name: gp.key,
+                            children: dataForma
+                        }
+                    })
+                return {
+                    name: g.key,
+                    children: dataPrincipio
+                }
+            });
+
+        //createTooltip(svg);
+        medicamentos = { name: "POS", children: data }
+        drawTreeChart(medicamentos);
+    });
 }
+
+function controlsChanged() {
+    d3.selectAll("input[name='radio-distribution']").on("change", function () {
+        if (this.value === 'principioactivo') {
+            svg.selectAll('g').remove();
+            distributeByPrincipioactivo()
+        } else {
+            svg.selectAll('g').remove();
+            distributeByForma();
+        }
+    });
+    distributeByForma();
+}
+
+controlsChanged();
