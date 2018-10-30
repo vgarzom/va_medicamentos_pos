@@ -3,10 +3,10 @@ const vis_header = d3.select("#vis-header");
 
 const
     margin = { top: 20, right: 50, bottom: 40, left: 70 },
-    chart_width = vis_container.node().getBoundingClientRect().width;
+    width = vis_container.node().getBoundingClientRect().width;
 var
     chart_height = vis_container.node().getBoundingClientRect().height - vis_header.node().getBoundingClientRect().height,
-    svg = vis_container.append('svg').attr("width", chart_width).attr("height", 4000);
+    svg = vis_container.append('svg').attr("width", width).attr("height", 4000);
 
 svg.style("font", "10px sans-serif")
     .style("width", "100%")
@@ -28,16 +28,6 @@ updateData();
 
 function updateData() {
     var result = [];
-    /*d3.csv("assets/data/medicamentos.csv", (error, csv_data) => {
-        var data = d3.nest()
-            .key((d) => {
-                console.log(d);
-                return d.principioactivo;
-            })
-            .entries(csv_data);
-    }).then((data) => {
-        console.log(data);
-    })*/
     d3.csv(
         "assets/data/medicamentos.csv",
         (d, i) => {
