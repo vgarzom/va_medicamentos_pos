@@ -1,0 +1,35 @@
+.data-abstraction-container {
+    background-color: #F3F6FA;
+    border-right: solid 1pt #D9E4EA;
+    border-left: solid 1pt #D9E4EA;
+    text-align: justify;
+}
+
+
+.full-height {
+    height: 87vh !important;
+}
+
+#vis-container {
+    padding: 0px !important;
+}
+
+.content-area {
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+}
+
+.separator {
+    height: 1em;
+    width: 100%;
+    border-bottom: dashed 1pt #C5E5EF;
+}
+
+.checkbox {
+    padding: 2em;
+}
+
+
+.insights_container {
+    padding: 2em;
+}
